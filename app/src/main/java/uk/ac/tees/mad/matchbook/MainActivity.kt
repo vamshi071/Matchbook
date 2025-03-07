@@ -14,7 +14,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            MatchBookTheme {
+            MatchBookTheme(darkTheme = false) {
                 AppNavigation()
             }
         }

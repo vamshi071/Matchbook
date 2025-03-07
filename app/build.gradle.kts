@@ -57,8 +57,11 @@ dependencies {
     kapt("com.google.dagger:hilt-compiler:2.51.1")
     // Hilt for ViewModel
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
-
     implementation("androidx.navigation:navigation-compose:2.8.7")
+
+    // Retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
