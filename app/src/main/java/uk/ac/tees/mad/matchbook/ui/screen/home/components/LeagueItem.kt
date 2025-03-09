@@ -12,10 +12,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import uk.ac.tees.mad.matchbook.model.League
 import uk.ac.tees.mad.matchbook.ui.theme.MatchBookTheme
 
 @Composable
 fun LeagueItem(
+    league: League,
     color:Color,
     onClick:()->Unit
 ) {
@@ -28,20 +30,8 @@ fun LeagueItem(
             .padding(16.dp)
             .fillMaxWidth()
         ) {
-            Text("Indian Premiere League", style = MaterialTheme.typography.titleLarge)
-            Text("Cricket")
-        }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun ItemPrev() {
-    MatchBookTheme {
-        LeagueItem(
-            color = Color.Blue.copy(0.5f)
-        ){
-
+            Text(league.strLeague, style = MaterialTheme.typography.titleLarge)
+            Text(league.strSport)
         }
     }
 }

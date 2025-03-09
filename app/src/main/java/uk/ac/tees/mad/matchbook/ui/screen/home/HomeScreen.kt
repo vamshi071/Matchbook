@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
@@ -17,6 +18,8 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -25,10 +28,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import uk.ac.tees.mad.matchbook.R
 import uk.ac.tees.mad.matchbook.ui.screen.home.components.LeagueItem
-import uk.ac.tees.mad.matchbook.utils.Constants
+import uk.ac.tees.mad.matchbook.utils.Constants.getColor
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(viewModel: HomeViewModel) {
+    val leagues by viewModel.leagueList.collectAsState()
     val searchQuery = remember { mutableStateOf("") }
     Scaffold(
         topBar = {
@@ -37,7 +41,7 @@ fun HomeScreen() {
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
-                        "My Gallery",
+                        "MatchBook",
                         style = MaterialTheme.typography.headlineLarge,
                         modifier = Modifier.weight(1f)
                     )
@@ -69,10 +73,12 @@ fun HomeScreen() {
             modifier = Modifier
                 .padding(paddingValues)
                 .padding(horizontal = 16.dp)
-                .fillMaxSize()) {
-
-            items(10){idx->
-                LeagueItem(Constants.getColor(idx%3)) { }
+                .fillMaxSize()
+        ) {
+            itemsIndexed(leagues.filter {
+                it.strLeague.contains(searchQuery.value, true)
+            }){ idx,league->
+                LeagueItem(league, getColor(idx%6)) { }
             }
         }
     }
