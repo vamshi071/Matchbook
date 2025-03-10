@@ -7,9 +7,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import uk.ac.tees.mad.matchbook.data.repository.Repository
 import uk.ac.tees.mad.matchbook.model.League
 import uk.ac.tees.mad.matchbook.model.LeagueResponse
@@ -19,7 +16,6 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val repository: Repository
 ):ViewModel() {
-    private val _response = MutableStateFlow<LeagueResponse?>(null)
     private val _errorMessage = MutableStateFlow<String?>(null)
     private val _leagueList = MutableStateFlow(emptyList<League>())
     val leagueList:StateFlow<List<League>> get() = _leagueList
@@ -27,11 +23,16 @@ class HomeViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             try {
-                _response.value = repository.getAllLeagues()
-                _leagueList.value = _response.value?.leagues?: emptyList()
+               val response = repository.getAllLeagues().leagues
+               repository.insertLeagues(response)
             }catch (e : Exception){
                 _errorMessage.value = "Error: ${e.message}"
                 Log.e("API ERROR", "Error: ${e.message}")
+            }
+        }
+        viewModelScope.launch {
+            repository.getLeaguesFromDB().collect{
+                _leagueList.value = it
             }
         }
     }
