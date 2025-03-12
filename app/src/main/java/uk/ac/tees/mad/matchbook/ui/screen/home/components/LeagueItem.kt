@@ -24,7 +24,8 @@ fun LeagueItem(
     Card(onClick = {onClick()},
         colors = CardDefaults.cardColors(
             containerColor = color
-        )
+        ),
+        modifier = Modifier.padding(start = 8.dp, end = 8.dp)
         ) {
         Column(modifier = Modifier
             .padding(16.dp)

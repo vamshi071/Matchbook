@@ -5,6 +5,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import uk.ac.tees.mad.matchbook.ui.screen.detail.DetailScreen
 import uk.ac.tees.mad.matchbook.ui.screen.home.HomeScreen
 import uk.ac.tees.mad.matchbook.ui.screen.home.HomeViewModel
 import uk.ac.tees.mad.matchbook.ui.screen.splash.SplashScreen
@@ -23,7 +24,11 @@ fun AppNavigation() {
         }
 
         composable(Routes.HOME_SCREEN) {
-            HomeScreen(homeViewModel)
+            HomeScreen(homeViewModel, navController)
+        }
+
+        composable(Routes.DETAIL_SCREEN) {
+            DetailScreen()
         }
     }
 }

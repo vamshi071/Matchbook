@@ -26,12 +26,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import uk.ac.tees.mad.matchbook.R
 import uk.ac.tees.mad.matchbook.ui.screen.home.components.LeagueItem
 import uk.ac.tees.mad.matchbook.utils.Constants.getColor
+import uk.ac.tees.mad.matchbook.utils.Routes
 
 @Composable
-fun HomeScreen(viewModel: HomeViewModel) {
+fun HomeScreen(viewModel: HomeViewModel, navController: NavController) {
     val leagues by viewModel.leagueList.collectAsState()
     val searchQuery = remember { mutableStateOf("") }
     Scaffold(
@@ -78,7 +80,9 @@ fun HomeScreen(viewModel: HomeViewModel) {
             itemsIndexed(leagues.filter {
                 it.strLeague.contains(searchQuery.value, true)
             }){ idx,league->
-                LeagueItem(league, getColor(idx%6)) { }
+                LeagueItem(league, getColor(idx%6)) {
+                    navController.navigate(Routes.DETAIL_SCREEN)
+                }
             }
         }
     }
