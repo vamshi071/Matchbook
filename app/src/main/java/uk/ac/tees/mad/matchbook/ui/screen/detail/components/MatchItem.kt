@@ -1,6 +1,5 @@
 package uk.ac.tees.mad.matchbook.ui.screen.detail.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,16 +21,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import uk.ac.tees.mad.matchbook.R
-import uk.ac.tees.mad.matchbook.ui.theme.MatchBookTheme
+import uk.ac.tees.mad.matchbook.model.Match
 
 @Composable
-fun MatchItem() {
+fun MatchItem(
+    match: Match
+) {
     Card {
         Column(
             verticalArrangement = Arrangement.spacedBy(1.dp),
@@ -39,21 +39,21 @@ fun MatchItem() {
             modifier = Modifier.padding(16.dp)
                 .width(290.dp)
         ) {
-            Image(
-                painter = painterResource(R.drawable.sample_image),
+            AsyncImage(
+                model = match.strLeagueBadge,
                 contentDescription = "league_thumb",
                 modifier = Modifier.size(80.dp)
             )
-            Text("Indian Premiere League",
+            Text(match.strLeague,
                 color = MaterialTheme.colorScheme.primary
                 )
-            Text("Cricket", style = MaterialTheme.typography.bodySmall,
+            Text(match.strSport, style = MaterialTheme.typography.bodySmall,
                 color = Color.Gray)
             Spacer(Modifier.height(8.dp))
-            Text("Chennai Super King",
+            Text(match.strHomeTeam,
                 fontWeight = FontWeight.Bold)
             Text("v/s")
-            Text("Mumbai Indians",
+            Text(match.strAwayTeam,
                 fontWeight = FontWeight.Bold)
             Spacer(Modifier.height(16.dp))
             Row(modifier = Modifier.align(Alignment.Start)) {
@@ -61,8 +61,7 @@ fun MatchItem() {
                     Icons.Default.LocationOn,
                     contentDescription = "location"
                 )
-                Text("Hyderabad Stadium, ")
-                Text("India")
+                Text("${match.strVenue}, ${match.strCountry}")
             }
             Row(verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.align(Alignment.Start)) {
@@ -70,7 +69,7 @@ fun MatchItem() {
                     Icons.Default.DateRange,
                     contentDescription = "date"
                 )
-                Text(" 2025-04-05", style = MaterialTheme.typography.bodyMedium)
+                Text(match.dateEvent, style = MaterialTheme.typography.bodyMedium)
             }
             Row(verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.align(Alignment.Start)) {
@@ -78,11 +77,11 @@ fun MatchItem() {
                     imageVector = ImageVector.vectorResource(R.drawable.baseline_access_time_24),
                     contentDescription = "time"
                 )
-                Text("14:00:00",style = MaterialTheme.typography.bodyMedium)
+                Text(match.strTime,style = MaterialTheme.typography.bodyMedium)
             }
             Row(modifier = Modifier.align(Alignment.Start)) {
                 Text("Status: ", style = MaterialTheme.typography.bodyMedium)
-                Text("Not Started", style = MaterialTheme.typography.bodyMedium)
+                Text(match.strStatus, style = MaterialTheme.typography.bodyMedium)
             }
 
             TextButton({},
@@ -90,13 +89,5 @@ fun MatchItem() {
                 Text("Book Ticket")
             }
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun MatchItemPrev() {
-    MatchBookTheme {
-        MatchItem()
     }
 }

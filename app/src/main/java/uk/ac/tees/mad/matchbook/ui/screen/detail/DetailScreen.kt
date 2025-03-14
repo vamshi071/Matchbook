@@ -32,6 +32,7 @@ fun DetailScreen(
     viewModel: DetailViewModel = hiltViewModel()
 ) {
     val leagues by viewModel.leagueList.collectAsState()
+    val matches by viewModel.matchList.collectAsState()
     Scaffold(
         topBar = {
             Text(
@@ -46,12 +47,13 @@ fun DetailScreen(
             modifier = Modifier.padding(paddingValues)){
             Column {
                 HorizontalMultiBrowseCarousel(
-                    state = rememberCarouselState { 5 },
+                    state = rememberCarouselState { matches.size },
                     preferredItemWidth = 290.dp,
                     itemSpacing = 12.dp,
                     contentPadding = PaddingValues(horizontal = 8.dp)
-                ) {
-                    MatchItem()
+                ) { idx->
+                    val match = matches[idx]
+                    MatchItem(match)
                 }
 
                 Text("Explore other leagues", modifier = Modifier.padding(16.dp))
