@@ -27,8 +27,9 @@ fun AppNavigation() {
             HomeScreen(homeViewModel, navController)
         }
 
-        composable(Routes.DETAIL_SCREEN) {
-            DetailScreen()
+        composable("${Routes.DETAIL_SCREEN}/{id}") {
+            val id = it.arguments?.getString("id")?:""
+            DetailScreen(id)
         }
     }
 }

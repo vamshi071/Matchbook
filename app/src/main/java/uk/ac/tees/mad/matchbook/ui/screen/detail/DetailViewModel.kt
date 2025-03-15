@@ -1,5 +1,6 @@
 package uk.ac.tees.mad.matchbook.ui.screen.detail
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -28,8 +29,12 @@ class DetailViewModel @Inject constructor(
             }
         }
 
+    }
+
+    fun fetchMatchData(id: String){
         viewModelScope.launch {
-            val matchResponse = repository.getMatches("4396")
+            Log.d("League Id", id)
+            val matchResponse = repository.getMatches(id)
             _matchList.value = matchResponse.events
         }
     }

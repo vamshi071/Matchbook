@@ -51,7 +51,9 @@ fun HomeScreen(viewModel: HomeViewModel, navController: NavController) {
                         Icon(
                             painter = painterResource(R.drawable.ticket),
                             contentDescription = "ticket",
-                            modifier = Modifier.padding(4.dp).size(40.dp)
+                            modifier = Modifier
+                                .padding(4.dp)
+                                .size(40.dp)
                         )
                     }
                 }
@@ -81,7 +83,7 @@ fun HomeScreen(viewModel: HomeViewModel, navController: NavController) {
                 it.strLeague.contains(searchQuery.value, true)
             }){ idx,league->
                 LeagueItem(league, getColor(idx%6)) {
-                    navController.navigate(Routes.DETAIL_SCREEN)
+                    navController.navigate("${Routes.DETAIL_SCREEN}/${league.idLeague}")
                 }
             }
         }

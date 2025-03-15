@@ -16,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.carousel.HorizontalMultiBrowseCarousel
 import androidx.compose.material3.carousel.rememberCarouselState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -29,10 +30,15 @@ import uk.ac.tees.mad.matchbook.utils.Constants.getColor
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreen(
-    viewModel: DetailViewModel = hiltViewModel()
+    id: String,
+    viewModel: DetailViewModel = hiltViewModel(),
 ) {
     val leagues by viewModel.leagueList.collectAsState()
     val matches by viewModel.matchList.collectAsState()
+
+    LaunchedEffect(id) {
+        viewModel.fetchMatchData(id)
+    }
     Scaffold(
         topBar = {
             Text(
@@ -64,7 +70,9 @@ fun DetailScreen(
 
                 ) {
                     itemsIndexed(leagues){ idx,league->
-                        LeagueItem(league, getColor(idx%6)){}
+                        LeagueItem(league, getColor(idx%6)){
+                            viewModel.fetchMatchData(league.idLeague)
+                        }
                     }
                 }
             }
