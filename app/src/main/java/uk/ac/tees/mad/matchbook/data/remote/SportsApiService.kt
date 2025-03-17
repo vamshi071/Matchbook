@@ -10,7 +10,7 @@ interface SportsApiService {
     @GET("all_leagues.php")
     suspend fun getAllLeagues(): LeagueResponse
 
-    @GET("eventsnext.php")
+    @GET("eventsnextleague.php")
     suspend fun getMatches(
         @Query("id") id: String
     ): MatchResponse

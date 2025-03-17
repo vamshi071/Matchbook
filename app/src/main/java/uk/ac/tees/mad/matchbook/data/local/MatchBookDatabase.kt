@@ -5,8 +5,9 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import uk.ac.tees.mad.matchbook.model.League
+import uk.ac.tees.mad.matchbook.model.Match
 
-@Database(entities = [League::class], version = 1, exportSchema = false)
+@Database(entities = [League::class, Match::class], version = 1, exportSchema = false)
 abstract class MatchBookDatabase:RoomDatabase() {
     abstract fun leaguesDao():LeaguesDao
 

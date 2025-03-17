@@ -1,7 +1,11 @@
 package uk.ac.tees.mad.matchbook.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "match_table")
 data class Match(
-    val idEvent: String,
+    @PrimaryKey val idEvent: String,
     val strEvent: String,
     val strSport: String,
     val idLeague: String,

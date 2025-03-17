@@ -28,14 +28,22 @@ class DetailViewModel @Inject constructor(
                 _leagueList.value = it
             }
         }
+        viewModelScope.launch {
+            repository.getMatchesFromDB().collect {
+                _matchList.value = it
+            }
+        }
 
     }
 
     fun fetchMatchData(id: String){
         viewModelScope.launch {
-            Log.d("League Id", id)
-            val matchResponse = repository.getMatches(id)
-            _matchList.value = matchResponse.events
+            try {
+                val matchResponse = repository.getMatches(id)
+                repository.insertMatches(matchResponse.events)
+            } catch (e: Exception) {
+                Log.e("Fetching Match Data", e.message.toString())
+            }
         }
     }
 }

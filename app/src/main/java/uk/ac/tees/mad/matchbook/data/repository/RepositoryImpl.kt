@@ -5,6 +5,7 @@ import uk.ac.tees.mad.matchbook.data.local.LeaguesDao
 import uk.ac.tees.mad.matchbook.data.remote.SportsApiService
 import uk.ac.tees.mad.matchbook.model.League
 import uk.ac.tees.mad.matchbook.model.LeagueResponse
+import uk.ac.tees.mad.matchbook.model.Match
 import uk.ac.tees.mad.matchbook.model.MatchResponse
 import javax.inject.Inject
 
@@ -24,7 +25,15 @@ class RepositoryImpl @Inject constructor(
         dao.insertLeagues(leagues)
     }
 
+    override suspend fun insertMatches(matches: List<Match>) {
+        dao.insertMatches(matches)
+    }
+
     override fun getLeaguesFromDB(): Flow<List<League>> {
         return dao.getLeaguesFromDB()
+    }
+
+    override fun getMatchesFromDB(): Flow<List<Match>> {
+        return dao.getMatchesFromDB()
     }
 }

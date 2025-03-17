@@ -38,6 +38,7 @@ fun MatchItem(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.padding(16.dp)
                 .width(290.dp)
+                .height(400.dp)
         ) {
             AsyncImage(
                 model = match.strLeagueBadge,
@@ -83,7 +84,7 @@ fun MatchItem(
                 Text("Status: ", style = MaterialTheme.typography.bodyMedium)
                 Text(match.strStatus, style = MaterialTheme.typography.bodyMedium)
             }
-
+            Spacer(Modifier.weight(1f))
             TextButton({},
                 modifier = Modifier.align(Alignment.End)) {
                 Text("Book Ticket")
