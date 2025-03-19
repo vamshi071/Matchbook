@@ -22,4 +22,7 @@ interface LeaguesDao {
 
     @Query("SELECT * FROM match_table")
     fun getMatchesFromDB(): Flow<List<Match>>
+
+    @Query("SELECT * FROM match_table WHERE idEvent= :id LIMIT 1")
+    fun getMatchByEventId(id: String): Flow<Match?>
 }

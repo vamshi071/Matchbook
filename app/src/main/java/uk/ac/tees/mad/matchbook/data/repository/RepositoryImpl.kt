@@ -36,4 +36,8 @@ class RepositoryImpl @Inject constructor(
     override fun getMatchesFromDB(): Flow<List<Match>> {
         return dao.getMatchesFromDB()
     }
+
+    override fun getMatchByEventId(id: String): Flow<Match?> {
+        return dao.getMatchByEventId(id)
+    }
 }

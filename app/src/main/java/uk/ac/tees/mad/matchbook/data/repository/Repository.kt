@@ -13,4 +13,5 @@ interface Repository {
     suspend fun insertMatches(matches: List<Match>)
     fun getLeaguesFromDB():Flow<List<League>>
     fun getMatchesFromDB(): Flow<List<Match>>
+    fun getMatchByEventId(id: String): Flow<Match?>
 }

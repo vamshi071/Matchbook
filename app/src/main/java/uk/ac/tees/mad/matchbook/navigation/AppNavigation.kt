@@ -5,6 +5,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import uk.ac.tees.mad.matchbook.ui.screen.booking.BookingScreen
 import uk.ac.tees.mad.matchbook.ui.screen.detail.DetailScreen
 import uk.ac.tees.mad.matchbook.ui.screen.home.HomeScreen
 import uk.ac.tees.mad.matchbook.ui.screen.home.HomeViewModel
@@ -29,7 +30,12 @@ fun AppNavigation() {
 
         composable("${Routes.DETAIL_SCREEN}/{id}") {
             val id = it.arguments?.getString("id")?:""
-            DetailScreen(id)
+            DetailScreen(id, navController)
+        }
+
+        composable("${Routes.BOOKING_SCREEN}/{id}") {
+            val id = it.arguments?.getString("id")?:""
+            BookingScreen(id)
         }
     }
 }

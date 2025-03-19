@@ -30,7 +30,9 @@ import uk.ac.tees.mad.matchbook.model.Match
 
 @Composable
 fun MatchItem(
-    match: Match
+    match: Match,
+    showButton: Boolean,
+    onClick:()-> Unit
 ) {
     Card {
         Column(
@@ -85,9 +87,11 @@ fun MatchItem(
                 Text(match.strStatus, style = MaterialTheme.typography.bodyMedium)
             }
             Spacer(Modifier.weight(1f))
-            TextButton({},
-                modifier = Modifier.align(Alignment.End)) {
-                Text("Book Ticket")
+            if (showButton) {
+                TextButton({onClick()},
+                    modifier = Modifier.align(Alignment.End)) {
+                    Text("Book Ticket")
+                }
             }
         }
     }

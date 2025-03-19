@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.staggeredgrid.LazyHorizontalStaggeredGrid
@@ -21,16 +22,20 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import uk.ac.tees.mad.matchbook.ui.screen.detail.components.MatchItem
 import uk.ac.tees.mad.matchbook.ui.screen.home.components.LeagueItem
 import uk.ac.tees.mad.matchbook.utils.Constants.getColor
+import uk.ac.tees.mad.matchbook.utils.Routes
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreen(
     id: String,
+    navController: NavController,
     viewModel: DetailViewModel = hiltViewModel(),
 ) {
     val leagues by viewModel.leagueList.collectAsState()
@@ -44,7 +49,10 @@ fun DetailScreen(
             Text(
                 "Matches",
                 style = MaterialTheme.typography.headlineLarge,
-                modifier = Modifier.padding(top = 30.dp, bottom = 12.dp,start = 16.dp, end = 16.dp)
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 30.dp, bottom = 12.dp,start = 16.dp, end = 16.dp)
             )
         }
     ) { paddingValues ->
@@ -59,7 +67,9 @@ fun DetailScreen(
                     contentPadding = PaddingValues(horizontal = 8.dp)
                 ) { idx->
                     val match = matches[idx]
-                    MatchItem(match)
+                    MatchItem(match, true){
+                        navController.navigate("${Routes.BOOKING_SCREEN}/${match.idEvent}")
+                    }
                 }
 
                 Text("Explore other leagues", modifier = Modifier.padding(16.dp))
