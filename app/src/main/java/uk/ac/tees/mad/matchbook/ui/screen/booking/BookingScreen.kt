@@ -1,5 +1,6 @@
 package uk.ac.tees.mad.matchbook.ui.screen.booking
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -25,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -42,6 +44,8 @@ fun BookingScreen(
 ) {
     val match by viewModel.match.collectAsState()
     var ticketCount = remember { mutableIntStateOf(0) }
+
+    val context = LocalContext.current
 
     LaunchedEffect(id) {
         viewModel.fetchMatchData(id)
@@ -103,7 +107,13 @@ fun BookingScreen(
                 }
             }
 
-            Button({},
+            Button({
+                viewModel.addTicket(ticketCount.intValue) { id->
+                    Toast.makeText(context,
+                        "Ticket Booked SuccessFully with ticket id: $id",
+                        Toast.LENGTH_SHORT).show()
+                }
+            },
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3188EC)),
                 modifier = Modifier
                     .padding(16.dp)

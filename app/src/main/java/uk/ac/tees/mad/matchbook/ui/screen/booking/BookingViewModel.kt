@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import uk.ac.tees.mad.matchbook.data.repository.Repository
 import uk.ac.tees.mad.matchbook.model.Match
+import uk.ac.tees.mad.matchbook.model.Ticket
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,6 +22,16 @@ class BookingViewModel @Inject constructor(
     fun fetchMatchData(id: String){
         viewModelScope.launch {
             _match.value = repository.getMatchByEventId(id).first()
+        }
+    }
+
+    fun addTicket(ticketCount: Int, onResult:(Long)-> Unit){
+        viewModelScope.launch {
+            val id = repository.insertTicket(Ticket(
+                idEvent = _match.value!!.idEvent,
+                ticketCount = ticketCount
+            ))
+            onResult(id)
         }
     }
 }

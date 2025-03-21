@@ -7,6 +7,7 @@ import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 import uk.ac.tees.mad.matchbook.model.League
 import uk.ac.tees.mad.matchbook.model.Match
+import uk.ac.tees.mad.matchbook.model.Ticket
 
 @Dao
 interface LeaguesDao {
@@ -17,6 +18,9 @@ interface LeaguesDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMatches(matches: List<Match>)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertTicket(ticket: Ticket): Long
+
     @Query("SELECT * FROM leagues_table")
     fun getLeaguesFromDB():Flow<List<League>>
 
@@ -25,4 +29,7 @@ interface LeaguesDao {
 
     @Query("SELECT * FROM match_table WHERE idEvent= :id LIMIT 1")
     fun getMatchByEventId(id: String): Flow<Match?>
+
+    @Query("SELECT * FROM ticket_table WHERE id = :id LIMIT 1")
+    fun getTicket(id: Long): Flow<Ticket>
 }
