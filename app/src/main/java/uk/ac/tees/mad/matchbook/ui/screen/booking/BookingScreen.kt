@@ -109,6 +109,7 @@ fun BookingScreen(
 
             Button({
                 viewModel.addTicket(ticketCount.intValue) { id->
+                    viewModel.vibrateOnConfirm() 
                     Toast.makeText(context,
                         "Ticket Booked SuccessFully with ticket id: $id",
                         Toast.LENGTH_SHORT).show()

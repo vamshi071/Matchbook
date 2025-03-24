@@ -1,5 +1,9 @@
 package uk.ac.tees.mad.matchbook.ui.screen.booking
 
+import android.app.Application
+import android.os.VibrationEffect
+import android.os.Vibrator
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,8 +18,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BookingViewModel @Inject constructor(
-    private val repository: Repository
-): ViewModel() {
+    private val repository: Repository,
+    private val application: Application
+): ViewModel(){
     private val _match = MutableStateFlow<Match?>(null)
     val match: StateFlow<Match?> get() = _match
 
@@ -34,4 +39,10 @@ class BookingViewModel @Inject constructor(
             onResult(id)
         }
     }
+
+    fun vibrateOnConfirm(){
+        val vibrator = ContextCompat.getSystemService(application.applicationContext,Vibrator::class.java)
+        vibrator?.vibrate(VibrationEffect.createOneShot(200,VibrationEffect.DEFAULT_AMPLITUDE))
+    }
+
 }
