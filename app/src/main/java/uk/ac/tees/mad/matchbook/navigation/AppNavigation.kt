@@ -2,10 +2,13 @@ package uk.ac.tees.mad.matchbook.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import uk.ac.tees.mad.matchbook.ui.screen.booking.BookingScreen
+import uk.ac.tees.mad.matchbook.ui.screen.confirmation.ConfirmationScreen
 import uk.ac.tees.mad.matchbook.ui.screen.detail.DetailScreen
 import uk.ac.tees.mad.matchbook.ui.screen.home.HomeScreen
 import uk.ac.tees.mad.matchbook.ui.screen.home.HomeViewModel
@@ -35,7 +38,13 @@ fun AppNavigation() {
 
         composable("${Routes.BOOKING_SCREEN}/{id}") {
             val id = it.arguments?.getString("id")?:""
-            BookingScreen(id)
+            BookingScreen(id, navController)
+        }
+
+        composable("${Routes.CONFIRMATION_SCREEN}/{id}",
+            arguments = listOf(navArgument("id") { type = NavType.LongType })) {
+            val id = it.arguments?.getLong("id")?:2
+            ConfirmationScreen(id,navController)
         }
     }
 }

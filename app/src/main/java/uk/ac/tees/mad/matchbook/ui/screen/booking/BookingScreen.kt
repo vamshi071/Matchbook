@@ -1,5 +1,6 @@
 package uk.ac.tees.mad.matchbook.ui.screen.booking
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -33,13 +34,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import uk.ac.tees.mad.matchbook.R
 import uk.ac.tees.mad.matchbook.ui.screen.detail.components.MatchItem
+import uk.ac.tees.mad.matchbook.utils.Routes
 import kotlin.math.max
 
 @Composable
 fun BookingScreen(
-    id:String,
+    id: String,
+    navController: NavController,
     viewModel: BookingViewModel = hiltViewModel()
 ) {
     val match by viewModel.match.collectAsState()
@@ -61,26 +65,30 @@ fun BookingScreen(
                     .padding(top = 30.dp, bottom = 12.dp, start = 16.dp, end = 16.dp)
             )
         }
-    ) { paddingValues->
+    ) { paddingValues ->
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.padding(paddingValues).fillMaxSize()
+            modifier = Modifier
+                .padding(paddingValues)
+                .fillMaxSize()
         ) {
 
-            match?.let { MatchItem(it, false){} }
+            match?.let { MatchItem(it, false) {} }
 
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.padding(top = 16.dp, start = 16.dp)
+                modifier = Modifier
+                    .padding(top = 16.dp, start = 16.dp)
                     .align(Alignment.Start)
             ) {
-                Text("Number of tickets:",
+                Text(
+                    "Number of tickets:",
                     style = MaterialTheme.typography.bodyLarge,
                     color = Color.Gray,
                     modifier = Modifier.padding(start = 16.dp)
                 )
                 IconButton({
-                    ticketCount.intValue = max(0, ticketCount.intValue-1)
+                    ticketCount.intValue = max(0, ticketCount.intValue - 1)
                 }) {
                     Icon(
                         imageVector = ImageVector.vectorResource(R.drawable.baseline_remove_24),
@@ -88,16 +96,21 @@ fun BookingScreen(
                     )
 
                 }
-                Text(ticketCount.intValue.toString(),
+                Text(
+                    ticketCount.intValue.toString(),
                     fontSize = 30.sp,
                     fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(8.dp))
-                IconButton({
-                    ticketCount.intValue ++
-                }, colors = IconButtonDefaults.iconButtonColors(containerColor = Color(
-                    0xFF1565C0
+                    modifier = Modifier.padding(8.dp)
                 )
-                )) {
+                IconButton(
+                    {
+                        ticketCount.intValue++
+                    }, colors = IconButtonDefaults.iconButtonColors(
+                        containerColor = Color(
+                            0xFF1565C0
+                        )
+                    )
+                ) {
                     Icon(
                         Icons.Default.Add,
                         contentDescription = "plus",
@@ -107,14 +120,19 @@ fun BookingScreen(
                 }
             }
 
-            Button({
-                viewModel.addTicket(ticketCount.intValue) { id->
-                    viewModel.vibrateOnConfirm() 
-                    Toast.makeText(context,
-                        "Ticket Booked SuccessFully with ticket id: $id",
-                        Toast.LENGTH_SHORT).show()
-                }
-            },
+            Button(
+                {
+                    viewModel.addTicket(ticketCount.intValue) { id1 ->
+                        viewModel.vibrateOnConfirm()
+                        navController.navigate("${Routes.CONFIRMATION_SCREEN}/$id1")
+                        Log.d("Confirm Debug", " Booking screen Ticket id: $id1")
+                        Toast.makeText(
+                            context,
+                            "Ticket Booked SuccessFully with ticket id: $id1",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                },
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3188EC)),
                 modifier = Modifier
                     .padding(16.dp)

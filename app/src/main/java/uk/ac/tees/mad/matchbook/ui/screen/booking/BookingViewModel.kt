@@ -32,9 +32,16 @@ class BookingViewModel @Inject constructor(
 
     fun addTicket(ticketCount: Int, onResult:(Long)-> Unit){
         viewModelScope.launch {
+            val mMatch = _match.value!!
             val id = repository.insertTicket(Ticket(
-                idEvent = _match.value!!.idEvent,
-                ticketCount = ticketCount
+                idEvent = mMatch.idEvent,
+                ticketCount = ticketCount,
+                eventName = mMatch.strLeague,
+                eventType = mMatch.strEvent,
+                location = mMatch.strVenue,
+                date = mMatch.dateEvent,
+                time = mMatch.strTime,
+                qrId = "HJRF2NN",
             ))
             onResult(id)
         }
