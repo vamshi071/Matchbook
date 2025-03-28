@@ -43,7 +43,7 @@ fun AppNavigation() {
 
         composable("${Routes.CONFIRMATION_SCREEN}/{id}",
             arguments = listOf(navArgument("id") { type = NavType.LongType })) {
-            val id = it.arguments?.getLong("id")?:2
+            val id = it.arguments?.getLong("id")?:0
             ConfirmationScreen(id,navController)
         }
     }

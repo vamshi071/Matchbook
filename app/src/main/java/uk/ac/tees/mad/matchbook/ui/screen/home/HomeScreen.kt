@@ -1,5 +1,11 @@
 package uk.ac.tees.mad.matchbook.ui.screen.home
 
+import android.Manifest
+import android.os.Build
+import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,6 +24,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -32,10 +39,25 @@ import uk.ac.tees.mad.matchbook.ui.screen.home.components.LeagueItem
 import uk.ac.tees.mad.matchbook.utils.Constants.getColor
 import uk.ac.tees.mad.matchbook.utils.Routes
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 fun HomeScreen(viewModel: HomeViewModel, navController: NavController) {
     val leagues by viewModel.leagueList.collectAsState()
     val searchQuery = remember { mutableStateOf("") }
+    val requestPermissionLauncher =
+        rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.RequestPermission()
+        ) { isGranted ->
+            if (isGranted) {
+                Log.d("Permission", "Notification permission granted")
+            } else {
+                Log.e("Permission", "Notification permission denied")
+            }
+        }
+
+    LaunchedEffect(Unit) {
+        requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+    }
     Scaffold(
         topBar = {
             Column(modifier = Modifier.padding(top = 30.dp, bottom = 12.dp,start = 16.dp, end = 16.dp)) {

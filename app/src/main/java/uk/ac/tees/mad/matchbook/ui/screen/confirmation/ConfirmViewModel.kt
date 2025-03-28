@@ -1,6 +1,5 @@
 package uk.ac.tees.mad.matchbook.ui.screen.confirmation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,7 +18,6 @@ class ConfirmViewModel @Inject constructor(
     val ticket: StateFlow<Ticket?> get() = _ticket
 
     fun loadTicket(id: Long){
-        Log.d("Confirm Debug", "Id in viewModel: $id")
         viewModelScope.launch {
             repository.getTicket(id).collect {
                 _ticket.value = it

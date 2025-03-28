@@ -1,6 +1,5 @@
 package uk.ac.tees.mad.matchbook.ui.screen.confirmation
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -33,7 +32,6 @@ fun ConfirmationScreen(
 
     LaunchedEffect(id) {
         viewModel.loadTicket(id)
-        Log.d("Confirm Debug", "Id in Launched Effect: $id")
     }
     Scaffold(
         topBar = {
@@ -53,7 +51,6 @@ fun ConfirmationScreen(
                 .padding(top = paddingValues.calculateTopPadding(), start = 16.dp, end = 16.dp)
                 .fillMaxSize()
         ) {
-            Log.d("Confirm Debug", "Ticket Value: ${ticket?.time}")
             ticket?.let { EventTicket(it) }
             Spacer(Modifier.height(16.dp))
             ConfirmationCard()

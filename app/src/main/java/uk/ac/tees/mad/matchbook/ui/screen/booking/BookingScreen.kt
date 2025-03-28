@@ -37,6 +37,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import uk.ac.tees.mad.matchbook.R
 import uk.ac.tees.mad.matchbook.ui.screen.detail.components.MatchItem
+import uk.ac.tees.mad.matchbook.utils.NotificationHelper
 import uk.ac.tees.mad.matchbook.utils.Routes
 import kotlin.math.max
 
@@ -125,7 +126,9 @@ fun BookingScreen(
                     viewModel.addTicket(ticketCount.intValue) { id1 ->
                         viewModel.vibrateOnConfirm()
                         navController.navigate("${Routes.CONFIRMATION_SCREEN}/$id1")
-                        Log.d("Confirm Debug", " Booking screen Ticket id: $id1")
+                        NotificationHelper.showNotification(context, "Ticket Booked",
+                            match?.strEvent.toString()
+                        )
                         Toast.makeText(
                             context,
                             "Ticket Booked SuccessFully with ticket id: $id1",
