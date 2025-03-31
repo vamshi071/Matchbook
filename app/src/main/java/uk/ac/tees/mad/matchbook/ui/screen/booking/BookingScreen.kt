@@ -1,6 +1,5 @@
 package uk.ac.tees.mad.matchbook.ui.screen.booking
 
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row

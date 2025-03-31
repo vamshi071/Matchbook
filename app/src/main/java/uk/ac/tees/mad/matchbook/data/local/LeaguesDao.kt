@@ -32,4 +32,7 @@ interface LeaguesDao {
 
     @Query("SELECT * FROM ticket_table WHERE id = :id LIMIT 1")
     fun getTicket(id: Long): Flow<Ticket>
+
+    @Query("SELECT * FROM ticket_table ORDER BY id DESC")
+    fun getAllTickets(): Flow<List<Ticket>>
 }

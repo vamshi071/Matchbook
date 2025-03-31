@@ -69,7 +69,9 @@ fun HomeScreen(viewModel: HomeViewModel, navController: NavController) {
                         style = MaterialTheme.typography.headlineLarge,
                         modifier = Modifier.weight(1f)
                     )
-                    IconButton({ }) {
+                    IconButton({
+                        navController.navigate(Routes.HISTORY_SCREEN)
+                    }) {
                         Icon(
                             painter = painterResource(R.drawable.ticket),
                             contentDescription = "ticket",

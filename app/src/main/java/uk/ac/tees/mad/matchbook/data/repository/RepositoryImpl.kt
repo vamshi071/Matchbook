@@ -49,4 +49,8 @@ class RepositoryImpl @Inject constructor(
     override fun getTicket(id: Long): Flow<Ticket> {
         return dao.getTicket(id)
     }
+
+    override fun getAllTickets(): Flow<List<Ticket>> {
+        return dao.getAllTickets()
+    }
 }

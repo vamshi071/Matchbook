@@ -17,4 +17,5 @@ interface Repository {
     fun getMatchesFromDB(): Flow<List<Match>>
     fun getMatchByEventId(id: String): Flow<Match?>
     fun getTicket(id: Long): Flow<Ticket>
+    fun getAllTickets(): Flow<List<Ticket>>
 }

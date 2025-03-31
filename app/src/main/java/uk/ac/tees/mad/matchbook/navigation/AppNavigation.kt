@@ -1,5 +1,7 @@
 package uk.ac.tees.mad.matchbook.navigation
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavType
@@ -10,11 +12,13 @@ import androidx.navigation.navArgument
 import uk.ac.tees.mad.matchbook.ui.screen.booking.BookingScreen
 import uk.ac.tees.mad.matchbook.ui.screen.confirmation.ConfirmationScreen
 import uk.ac.tees.mad.matchbook.ui.screen.detail.DetailScreen
+import uk.ac.tees.mad.matchbook.ui.screen.history.HistoryScreen
 import uk.ac.tees.mad.matchbook.ui.screen.home.HomeScreen
 import uk.ac.tees.mad.matchbook.ui.screen.home.HomeViewModel
 import uk.ac.tees.mad.matchbook.ui.screen.splash.SplashScreen
 import uk.ac.tees.mad.matchbook.utils.Routes
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 fun AppNavigation() {
     val navController = rememberNavController()
@@ -45,6 +49,10 @@ fun AppNavigation() {
             arguments = listOf(navArgument("id") { type = NavType.LongType })) {
             val id = it.arguments?.getLong("id")?:0
             ConfirmationScreen(id,navController)
+        }
+
+        composable(Routes.HISTORY_SCREEN) {
+            HistoryScreen(navController)
         }
     }
 }
