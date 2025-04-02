@@ -1,6 +1,7 @@
 package uk.ac.tees.mad.matchbook.ui.screen.booking
 
 import android.widget.Toast
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -62,6 +63,7 @@ fun BookingScreen(
                 textAlign = TextAlign.Center,
                 modifier = Modifier
                     .fillMaxWidth()
+                    .background(Color(0xFFF2F6D0))
                     .padding(top = 30.dp, bottom = 12.dp, start = 16.dp, end = 16.dp)
             )
         }
@@ -122,17 +124,22 @@ fun BookingScreen(
 
             Button(
                 {
-                    viewModel.addTicket(ticketCount.intValue) { id1 ->
-                        viewModel.vibrateOnConfirm()
-                        navController.navigate("${Routes.CONFIRMATION_SCREEN}/$id1")
-                        NotificationHelper.showNotification(context, "Ticket Booked",
-                            match?.strEvent.toString()
-                        )
-                        Toast.makeText(
-                            context,
-                            "Ticket Booked SuccessFully with ticket id: $id1",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                    if (ticketCount.intValue>0) {
+                        viewModel.addTicket(ticketCount.intValue) { id1 ->
+                            viewModel.vibrateOnConfirm()
+                            navController.navigate("${Routes.CONFIRMATION_SCREEN}/$id1")
+                            NotificationHelper.showNotification(context, "Ticket Booked",
+                                match?.strEvent.toString()
+                            )
+                            Toast.makeText(
+                                context,
+                                "Ticket Booked SuccessFully",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                    else{
+                        Toast.makeText(context, "Add some ticket count", Toast.LENGTH_SHORT).show()
                     }
                 },
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3188EC)),
